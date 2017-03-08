@@ -18,7 +18,7 @@ var areas = make(map[*C.uiArea]*Area)
 // and event handling are handled through an instance of a type
 // that implements AreaHandler that every Area has; see AreaHandler
 // for details.
-// 
+//
 // There are two types of areas. Non-scrolling areas are rectangular
 // and have no scrollbars. Programs can draw on and get mouse
 // events from any point in the Area, and the size of the Area is
@@ -28,7 +28,7 @@ var areas = make(map[*C.uiArea]*Area)
 // size changes; instead, you are given the area size as part of the
 // draw and mouse event handlers, for use solely within those
 // handlers.
-// 
+//
 // Scrolling areas have horziontal and vertical scrollbars. The amount
 // that can be scrolled is determined by the area's size, which is
 // decided by the programmer (both when creating the Area and by
@@ -36,7 +36,7 @@ var areas = make(map[*C.uiArea]*Area)
 // drawing and mouse events are automatically adjusted to match
 // what portion is visible, so you do not have to worry about scrolling
 // in your event handlers. AreaHandler has more information.
-// 
+//
 // The internal coordinate system of an Area is points, which are
 // floating-point and device-independent. For more details, see
 // AreaHandler. The size of a scrolling Area must be an exact integer
@@ -45,12 +45,12 @@ var areas = make(map[*C.uiArea]*Area)
 // SetSize are ints. All other instances of points in parameters and
 // structures (including sizes of drawn objects) are float64s.
 type Area struct {
-	c	*C.uiControl
-	a	*C.uiArea
+	c *C.uiControl
+	a *C.uiArea
 
-	ah	*C.uiAreaHandler
+	ah *C.uiAreaHandler
 
-	scrolling	bool
+	scrolling bool
 }
 
 // NewArea creates a new non-scrolling Area.
@@ -143,6 +143,11 @@ func (a *Area) QueueRedrawAll() {
 	C.uiAreaQueueRedrawAll(a.a)
 }
 
+// QueueRedraw queues the given rectangle Area for redraw.
+func (a *Area) QueueRedraw(x float64, y float64, width float64, height float64) {
+	C.uiAreaQueueRedraw(a.a, C.double(x), C.double(y), C.double(width), C.double(height))
+}
+
 // ScrollTo scrolls the Area to show the given rectangle; what this
 // means is implementation-defined, but you can safely assume
 // that as much of the given rectangle as possible will be visible
@@ -153,4 +158,9 @@ func (a *Area) ScrollTo(x float64, y float64, width float64, height float64) {
 		panic("attempt to call ScrollTo on non-scrolling Area")
 	}
 	C.uiAreaScrollTo(a.a, C.double(x), C.double(y), C.double(width), C.double(height))
+}
+
+// ScrollRect copys the given rectangle to the offset place
+func (a *Area) ScrollRect(x float64, y float64, width float64, height float64, offsetX float64, offsetY float64) {
+	C.uiAreaScrollRect(a.a, C.double(x), C.double(y), C.double(width), C.double(height), C.double(offsetX), C.double(offsetY))
 }

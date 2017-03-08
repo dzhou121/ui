@@ -278,8 +278,10 @@ struct uiAreaHandler {
 // TODO document the types of width and height
 _UI_EXTERN void uiAreaSetSize(uiArea *a, intmax_t width, intmax_t height);
 // TODO uiAreaQueueRedraw()
+_UI_EXTERN void uiAreaQueueRedraw(uiArea *a, double x, double y, double width, double height);
 _UI_EXTERN void uiAreaQueueRedrawAll(uiArea *a);
 _UI_EXTERN void uiAreaScrollTo(uiArea *a, double x, double y, double width, double height);
+_UI_EXTERN void uiAreaScrollRect(uiArea *a, double x, double y, double width, double height, double offsetX, double offsetY);
 _UI_EXTERN uiArea *uiNewArea(uiAreaHandler *ah);
 _UI_EXTERN uiArea *uiNewScrollingArea(uiAreaHandler *ah, intmax_t width, intmax_t height);
 

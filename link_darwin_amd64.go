@@ -2,8 +2,8 @@
 
 package ui
 
-// #cgo CFLAGS: -mmacosx-version-min=10.8 -DMACOSX_DEPLOYMENT_TARGET=10.8
-// #cgo LDFLAGS: ${SRCDIR}/libui_darwin_amd64.a -framework Foundation -framework AppKit -lpthread -mmacosx-version-min=10.8
+// #cgo CFLAGS: -mmacosx-version-min=10.12 -DMACOSX_DEPLOYMENT_TARGET=10.12
+// #cgo LDFLAGS: ${SRCDIR}/libui_darwin_amd64.a -framework Foundation -framework AppKit -lpthread -mmacosx-version-min=10.12
 // #include <CoreFoundation/CoreFoundation.h>
 // #include <pthread.h>
 // extern void _CFRunLoopSetCurrent(CFRunLoopRef);
