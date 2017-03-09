@@ -530,6 +530,8 @@ _UI_ENUM(uiModifiers) {
 	uiModifierSuper = 1 << 3,
 };
 
+_UI_EXTERN void uiAreaSetBackground(uiArea *a, uiDrawBrush *b);
+_UI_EXTERN void uiWindowSetBackground(uiWindow *w, uiDrawBrush *b);
 // TODO document drag captures
 struct uiAreaMouseEvent {
 	// TODO document what these mean for scrolling areas

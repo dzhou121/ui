@@ -844,3 +844,17 @@ func (l *TextLayout) Extents() (width float64, height float64) {
 func (c *DrawContext) Text(x float64, y float64, layout *TextLayout) {
 	C.uiDrawText(c.c, C.double(x), C.double(y), layout.l)
 }
+
+// SetBackground sets the area background
+func (a *Area) SetBackground(b *Brush) {
+	cb := b.toC()
+	C.uiAreaSetBackground(a.a, cb)
+	C.freeBrush(cb)
+}
+
+// SetBackground sets the area background
+func (w *Window) SetBackground(b *Brush) {
+	cb := b.toC()
+	C.uiWindowSetBackground(w.w, cb)
+	C.freeBrush(cb)
+}
