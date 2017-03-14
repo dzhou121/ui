@@ -98,6 +98,8 @@ typedef struct uiWindow uiWindow;
 _UI_EXTERN char *uiWindowTitle(uiWindow *w);
 _UI_EXTERN void uiWindowSetTitle(uiWindow *w, const char *title);
 _UI_EXTERN void uiWindowOnClosing(uiWindow *w, int (*f)(uiWindow *w, void *data), void *data);
+_UI_EXTERN void uiWindowContentSize(uiWindow *w, int *width, int *height);
+_UI_EXTERN void uiWindowOnContentSizeChanged(uiWindow *w, int (*f)(uiWindow *, void *data), void *data);
 _UI_EXTERN void uiWindowSetChild(uiWindow *w, uiControl *child);
 _UI_EXTERN int uiWindowMargined(uiWindow *w);
 _UI_EXTERN void uiWindowSetMargined(uiWindow *w, int margined);
@@ -116,6 +118,9 @@ _UI_EXTERN void uiBoxAppend(uiBox *b, uiControl *child, int stretchy);
 _UI_EXTERN void uiBoxDelete(uiBox *b, uintmax_t index);
 _UI_EXTERN int uiBoxPadded(uiBox *b);
 _UI_EXTERN void uiBoxSetPadded(uiBox *b, int padded);
+_UI_EXTERN void uiBoxSetSize(uiBox *b, int width, int height);
+_UI_EXTERN void uiBoxSetPosition(uiBox *b, int x, int y);
+_UI_EXTERN void uiBoxSetShadow(uiBox *box, int x, int y, double r, double g, double b, double a, double radius);
 _UI_EXTERN uiBox *uiNewHorizontalBox(void);
 _UI_EXTERN uiBox *uiNewVerticalBox(void);
 
@@ -277,6 +282,7 @@ struct uiAreaHandler {
 // TODO give a better name
 // TODO document the types of width and height
 _UI_EXTERN void uiAreaSetSize(uiArea *a, intmax_t width, intmax_t height);
+_UI_EXTERN void uiAreaSetPosition(uiArea *a, intmax_t x, intmax_t y);
 // TODO uiAreaQueueRedraw()
 _UI_EXTERN void uiAreaQueueRedraw(uiArea *a, double x, double y, double width, double height);
 _UI_EXTERN void uiAreaQueueRedrawAll(uiArea *a);
@@ -532,6 +538,9 @@ _UI_ENUM(uiModifiers) {
 
 _UI_EXTERN void uiAreaSetBackground(uiArea *a, uiDrawBrush *b);
 _UI_EXTERN void uiWindowSetBackground(uiWindow *w, uiDrawBrush *b);
+_UI_EXTERN void uiLabelSetColor(uiLabel *l, uiDrawBrush *b);
+_UI_EXTERN void uiLabelSetBackground(uiLabel *l, uiDrawBrush *b);
+_UI_EXTERN void uiLabelSetFont(uiLabel *l, uiDrawTextFont *font);
 // TODO document drag captures
 struct uiAreaMouseEvent {
 	// TODO document what these mean for scrolling areas

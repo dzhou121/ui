@@ -119,3 +119,18 @@ func (b *Box) Padded() bool {
 func (b *Box) SetPadded(padded bool) {
 	C.uiBoxSetPadded(b.b, frombool(padded))
 }
+
+// SetSize sets the size of the box
+func (b *Box) SetSize(width int, height int) {
+	C.uiBoxSetSize(b.b, C.int(width), C.int(height))
+}
+
+// SetPosition sets the position of the area
+func (b *Box) SetPosition(x int, y int) {
+	C.uiBoxSetPosition(b.b, C.int(x), C.int(y))
+}
+
+// SetShadow sets the position of the area
+func (b *Box) SetShadow(x int, y int, r, g, B, a, radius float64) {
+	C.uiBoxSetShadow(b.b, C.int(x), C.int(y), C.double(r), C.double(g), C.double(B), C.double(a), C.double(radius))
+}

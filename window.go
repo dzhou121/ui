@@ -12,6 +12,12 @@ import (
 // {
 // 	uiWindowOnClosing(w, doOnClosing, NULL);
 // }
+//
+// extern int doOnContentSizeChanged(uiWindow *, void *);
+// static inline void realuiWindowOnContentSizeChanged(uiWindow *w)
+// {
+// 	uiWindowOnContentSizeChanged(w, doOnContentSizeChanged, NULL);
+// }
 import "C"
 
 // no need to lock this; only the GUI thread can access it
@@ -22,12 +28,13 @@ var windows = make(map[*C.uiWindow]*Window)
 // entirety of the window. Though a Window is a Control,
 // a Window cannot be the child of another Control.
 type Window struct {
-	c	*C.uiControl
-	w	*C.uiWindow
+	c *C.uiControl
+	w *C.uiWindow
 
-	child		Control
+	child Control
 
-	onClosing		func(w *Window) bool
+	onClosing            func(w *Window) bool
+	onContentSizeChanged func(w *Window, data unsafe.Pointer) bool
 }
 
 // NewWindow creates a new Window.
@@ -41,6 +48,7 @@ func NewWindow(title string, width int, height int, hasMenubar bool) *Window {
 	freestr(ctitle)
 
 	C.realuiWindowOnClosing(w.w)
+	C.realuiWindowOnContentSizeChanged(w.w)
 	windows[w.w] = w
 
 	return w
@@ -114,6 +122,14 @@ func (w *Window) SetTitle(title string) {
 	freestr(ctitle)
 }
 
+// ContentSize gets the content size of the window
+func (w *Window) ContentSize() (int, int) {
+	var width C.int
+	var height C.int
+	C.uiWindowContentSize(w.w, &width, &height)
+	return int(width), int(height)
+}
+
 // OnClosing registers f to be run when the user clicks the Window's
 // close button. Only one function can be registered at a time.
 // If f returns true, the window is destroyed with the Destroy method.
@@ -131,6 +147,22 @@ func doOnClosing(ww *C.uiWindow, data unsafe.Pointer) C.int {
 	}
 	if w.onClosing(w) {
 		w.Destroy()
+	}
+	return 0
+}
+
+// OnContentSizeChanged registers f to be run when the window is resized
+func (w *Window) OnContentSizeChanged(f func(*Window, unsafe.Pointer) bool) {
+	w.onContentSizeChanged = f
+}
+
+//export doOnContentSizeChanged
+func doOnContentSizeChanged(ww *C.uiWindow, data unsafe.Pointer) C.int {
+	w := windows[ww]
+	if w.onContentSizeChanged == nil {
+		return 0
+	}
+	if w.onContentSizeChanged(w, data) {
 	}
 	return 0
 }

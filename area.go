@@ -130,10 +130,12 @@ func (a *Area) Disable() {
 // SetSize sets the size of a scrolling Area to the given size, in points.
 // SetSize panics if called on a non-scrolling Area.
 func (a *Area) SetSize(width int, height int) {
-	if !a.scrolling {
-		panic("attempt to call SetSize on non-scrolling Area")
-	}
 	C.uiAreaSetSize(a.a, C.intmax_t(width), C.intmax_t(height))
+}
+
+// SetPosition sets the position of the area
+func (a *Area) SetPosition(x int, y int) {
+	C.uiAreaSetPosition(a.a, C.intmax_t(x), C.intmax_t(y))
 }
 
 // QueueRedrawAll queues the entire Area for redraw.

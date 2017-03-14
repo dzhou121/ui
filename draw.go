@@ -858,3 +858,22 @@ func (w *Window) SetBackground(b *Brush) {
 	C.uiWindowSetBackground(w.w, cb)
 	C.freeBrush(cb)
 }
+
+// SetBackground sets the label background
+func (l *Label) SetBackground(b *Brush) {
+	cb := b.toC()
+	C.uiLabelSetBackground(l.l, cb)
+	C.freeBrush(cb)
+}
+
+// SetColor sets the label text color
+func (l *Label) SetColor(b *Brush) {
+	cb := b.toC()
+	C.uiLabelSetColor(l.l, cb)
+	C.freeBrush(cb)
+}
+
+// SetFont sets the label font
+func (l *Label) SetFont(f *Font) {
+	C.uiLabelSetFont(l.l, f.f)
+}
