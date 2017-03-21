@@ -844,36 +844,3 @@ func (l *TextLayout) Extents() (width float64, height float64) {
 func (c *DrawContext) Text(x float64, y float64, layout *TextLayout) {
 	C.uiDrawText(c.c, C.double(x), C.double(y), layout.l)
 }
-
-// SetBackground sets the area background
-func (a *Area) SetBackground(b *Brush) {
-	cb := b.toC()
-	C.uiAreaSetBackground(a.a, cb)
-	C.freeBrush(cb)
-}
-
-// SetBackground sets the area background
-func (w *Window) SetBackground(b *Brush) {
-	cb := b.toC()
-	C.uiWindowSetBackground(w.w, cb)
-	C.freeBrush(cb)
-}
-
-// SetBackground sets the label background
-func (l *Label) SetBackground(b *Brush) {
-	cb := b.toC()
-	C.uiLabelSetBackground(l.l, cb)
-	C.freeBrush(cb)
-}
-
-// SetColor sets the label text color
-func (l *Label) SetColor(b *Brush) {
-	cb := b.toC()
-	C.uiLabelSetColor(l.l, cb)
-	C.freeBrush(cb)
-}
-
-// SetFont sets the label font
-func (l *Label) SetFont(f *Font) {
-	C.uiLabelSetFont(l.l, f.f)
-}

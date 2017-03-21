@@ -161,8 +161,3 @@ func (a *Area) ScrollTo(x float64, y float64, width float64, height float64) {
 	}
 	C.uiAreaScrollTo(a.a, C.double(x), C.double(y), C.double(width), C.double(height))
 }
-
-// ScrollRect copys the given rectangle to the offset place
-func (a *Area) ScrollRect(x float64, y float64, width float64, height float64, offsetX float64, offsetY float64) {
-	C.uiAreaScrollRect(a.a, C.double(x), C.double(y), C.double(width), C.double(height), C.double(offsetX), C.double(offsetY))
-}

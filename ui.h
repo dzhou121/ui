@@ -287,7 +287,6 @@ _UI_EXTERN void uiAreaSetPosition(uiArea *a, intmax_t x, intmax_t y);
 _UI_EXTERN void uiAreaQueueRedraw(uiArea *a, double x, double y, double width, double height);
 _UI_EXTERN void uiAreaQueueRedrawAll(uiArea *a);
 _UI_EXTERN void uiAreaScrollTo(uiArea *a, double x, double y, double width, double height);
-_UI_EXTERN void uiAreaScrollRect(uiArea *a, double x, double y, double width, double height, double offsetX, double offsetY);
 _UI_EXTERN uiArea *uiNewArea(uiAreaHandler *ah);
 _UI_EXTERN uiArea *uiNewScrollingArea(uiAreaHandler *ah, intmax_t width, intmax_t height);
 
@@ -536,11 +535,6 @@ _UI_ENUM(uiModifiers) {
 	uiModifierSuper = 1 << 3,
 };
 
-_UI_EXTERN void uiAreaSetBackground(uiArea *a, uiDrawBrush *b);
-_UI_EXTERN void uiWindowSetBackground(uiWindow *w, uiDrawBrush *b);
-_UI_EXTERN void uiLabelSetColor(uiLabel *l, uiDrawBrush *b);
-_UI_EXTERN void uiLabelSetBackground(uiLabel *l, uiDrawBrush *b);
-_UI_EXTERN void uiLabelSetFont(uiLabel *l, uiDrawTextFont *font);
 // TODO document drag captures
 struct uiAreaMouseEvent {
 	// TODO document what these mean for scrolling areas
