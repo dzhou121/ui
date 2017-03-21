@@ -13,7 +13,7 @@ import (
 // 	uiWindowOnClosing(w, doOnClosing, NULL);
 // }
 //
-// extern int doOnContentSizeChanged(uiWindow *, void *);
+// extern void doOnContentSizeChanged(uiWindow *, void *);
 // static inline void realuiWindowOnContentSizeChanged(uiWindow *w)
 // {
 // 	uiWindowOnContentSizeChanged(w, doOnContentSizeChanged, NULL);
@@ -157,14 +157,14 @@ func (w *Window) OnContentSizeChanged(f func(*Window, unsafe.Pointer) bool) {
 }
 
 //export doOnContentSizeChanged
-func doOnContentSizeChanged(ww *C.uiWindow, data unsafe.Pointer) C.int {
+func doOnContentSizeChanged(ww *C.uiWindow, data unsafe.Pointer) {
 	w := windows[ww]
 	if w.onContentSizeChanged == nil {
-		return 0
+		return
 	}
 	if w.onContentSizeChanged(w, data) {
 	}
-	return 0
+	return
 }
 
 // SetChild sets the Window's child to child. If child is nil, the Window
