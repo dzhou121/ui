@@ -3,8 +3,8 @@
 package ui
 
 import (
-	"runtime"
 	"errors"
+	"runtime"
 	"sync"
 	"unsafe"
 )
@@ -44,7 +44,7 @@ func start(errchan chan error, f func()) {
 
 	// TODO HEAP SAFETY
 	opts := C.uiInitOptions{}
-	estr := C.uiInit(&opts)
+	estr := C.uiInit(nil)
 	if estr != nil {
 		errchan <- errors.New(C.GoString(estr))
 		C.uiFreeInitError(estr)
@@ -67,9 +67,9 @@ func Quit() {
 // These prevent the passing of Go functions into C land.
 // TODO make an actual sparse list instead of this monotonic map thingy
 var (
-	qmmap = make(map[uintptr]func())
+	qmmap     = make(map[uintptr]func())
 	qmcurrent = uintptr(0)
-	qmlock sync.Mutex
+	qmlock    sync.Mutex
 )
 
 // QueueMain queues f to be executed on the GUI thread when
