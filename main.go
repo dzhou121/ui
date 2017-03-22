@@ -43,8 +43,8 @@ func start(errchan chan error, f func()) {
 	ensureMainThread()
 
 	// TODO HEAP SAFETY
-	// opts := C.uiInitOptions{}
-	estr := C.uiInit(nil)
+	opts := C.uiInitOptions{}
+	estr := C.uiInit(&opts)
 	if estr != nil {
 		errchan <- errors.New(C.GoString(estr))
 		C.uiFreeInitError(estr)
