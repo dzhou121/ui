@@ -107,6 +107,16 @@ func (b *Box) Delete(n int) {
 	C.uiBoxDelete(b.b, C.uintmax_t(n))
 }
 
+// DeleteChild deletes a child
+func (b *Box) DeleteChild(child Control) {
+	for n, c := range b.children {
+		if c == child {
+			b.Delete(n)
+			return
+		}
+	}
+}
+
 // Padded returns whether there is space between each control
 // of the Box.
 func (b *Box) Padded() bool {
