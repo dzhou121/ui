@@ -161,7 +161,7 @@ func doAreaHandlerDraw(uah *C.uiAreaHandler, ua *C.uiArea, udp *C.uiAreaDrawPara
 	ah := areahandlers[uah]
 	areasRWMutex.RLock()
 	a := areas[ua]
-	areasRWMutex.RULock()
+	areasRWMutex.RUnlock()
 	dp := &AreaDrawParams{
 		Context:    &DrawContext{udp.Context},
 		AreaWidth:  float64(udp.AreaWidth),
@@ -214,7 +214,7 @@ func doAreaHandlerMouseEvent(uah *C.uiAreaHandler, ua *C.uiArea, ume *C.uiAreaMo
 	ah := areahandlers[uah]
 	areasRWMutex.RLock()
 	a := areas[ua]
-	areasRWMutex.RULock()
+	areasRWMutex.RUnlock()
 	me := &AreaMouseEvent{
 		X:          float64(ume.X),
 		Y:          float64(ume.Y),
@@ -235,7 +235,7 @@ func doAreaHandlerMouseCrossed(uah *C.uiAreaHandler, ua *C.uiArea, left C.int) {
 	ah := areahandlers[uah]
 	areasRWMutex.RLock()
 	a := areas[ua]
-	areasRWMutex.RULock()
+	areasRWMutex.RUnlock()
 	ah.MouseCrossed(a, tobool(left))
 }
 
@@ -244,7 +244,7 @@ func doAreaHandlerDragBroken(uah *C.uiAreaHandler, ua *C.uiArea) {
 	ah := areahandlers[uah]
 	areasRWMutex.RLock()
 	a := areas[ua]
-	areasRWMutex.RULock()
+	areasRWMutex.RUnlock()
 	ah.DragBroken(a)
 }
 
@@ -262,7 +262,7 @@ func doAreaHandlerKeyEvent(uah *C.uiAreaHandler, ua *C.uiArea, uke *C.uiAreaKeyE
 	ah := areahandlers[uah]
 	areasRWMutex.RLock()
 	a := areas[ua]
-	areasRWMutex.RULock()
+	areasRWMutex.RUnlock()
 	ke := &AreaKeyEvent{
 		Key:       rune(uke.Key),
 		ExtKey:    ExtKey(uke.ExtKey),
