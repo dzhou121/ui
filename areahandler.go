@@ -159,7 +159,9 @@ type AreaDrawParams struct {
 //export doAreaHandlerDraw
 func doAreaHandlerDraw(uah *C.uiAreaHandler, ua *C.uiArea, udp *C.uiAreaDrawParams) {
 	ah := areahandlers[uah]
+	areasRWMutex.RLock()
 	a := areas[ua]
+	areasRWMutex.RULock()
 	dp := &AreaDrawParams{
 		Context:    &DrawContext{udp.Context},
 		AreaWidth:  float64(udp.AreaWidth),
@@ -210,7 +212,9 @@ func appendBits(out []uint, held C.uint64_t) []uint {
 //export doAreaHandlerMouseEvent
 func doAreaHandlerMouseEvent(uah *C.uiAreaHandler, ua *C.uiArea, ume *C.uiAreaMouseEvent) {
 	ah := areahandlers[uah]
+	areasRWMutex.RLock()
 	a := areas[ua]
+	areasRWMutex.RULock()
 	me := &AreaMouseEvent{
 		X:          float64(ume.X),
 		Y:          float64(ume.Y),
@@ -229,14 +233,18 @@ func doAreaHandlerMouseEvent(uah *C.uiAreaHandler, ua *C.uiArea, ume *C.uiAreaMo
 //export doAreaHandlerMouseCrossed
 func doAreaHandlerMouseCrossed(uah *C.uiAreaHandler, ua *C.uiArea, left C.int) {
 	ah := areahandlers[uah]
+	areasRWMutex.RLock()
 	a := areas[ua]
+	areasRWMutex.RULock()
 	ah.MouseCrossed(a, tobool(left))
 }
 
 //export doAreaHandlerDragBroken
 func doAreaHandlerDragBroken(uah *C.uiAreaHandler, ua *C.uiArea) {
 	ah := areahandlers[uah]
+	areasRWMutex.RLock()
 	a := areas[ua]
+	areasRWMutex.RULock()
 	ah.DragBroken(a)
 }
 
@@ -252,7 +260,9 @@ type AreaKeyEvent struct {
 //export doAreaHandlerKeyEvent
 func doAreaHandlerKeyEvent(uah *C.uiAreaHandler, ua *C.uiArea, uke *C.uiAreaKeyEvent) C.int {
 	ah := areahandlers[uah]
+	areasRWMutex.RLock()
 	a := areas[ua]
+	areasRWMutex.RULock()
 	ke := &AreaKeyEvent{
 		Key:       rune(uke.Key),
 		ExtKey:    ExtKey(uke.ExtKey),

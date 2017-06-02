@@ -3,6 +3,7 @@
 package ui
 
 import (
+	"sync"
 	"unsafe"
 )
 
@@ -11,6 +12,7 @@ import "C"
 
 // no need to lock this; only the GUI thread can access it
 var areas = make(map[*C.uiArea]*Area)
+var areasRWMutex = sync.RWMutex{}
 
 // Area is a Control that represents a blank canvas that a program
 // can draw on as it wishes. Areas also receive keyboard and mouse
@@ -62,7 +64,9 @@ func NewArea(handler AreaHandler) *Area {
 	a.a = C.uiNewArea(a.ah)
 	a.c = (*C.uiControl)(unsafe.Pointer(a.a))
 
+	areasRWMutex.Lock()
 	areas[a.a] = a
+	areasRWMutex.Unlock()
 
 	return a
 }
@@ -77,14 +81,18 @@ func NewScrollingArea(handler AreaHandler, width int, height int) *Area {
 	a.a = C.uiNewScrollingArea(a.ah, C.intmax_t(width), C.intmax_t(height))
 	a.c = (*C.uiControl)(unsafe.Pointer(a.a))
 
+	areasRWMutex.Lock()
 	areas[a.a] = a
+	areasRWMutex.Unlock()
 
 	return a
 }
 
 // Destroy destroys the Area.
 func (a *Area) Destroy() {
+	areasRWMutex.Lock()
 	delete(areas, a.a)
+	areasRWMutex.Unlock()
 	C.uiControlDestroy(a.c)
 	unregisterAreaHandler(a.ah)
 }
